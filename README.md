@@ -6,7 +6,7 @@
 **RISC-V Product Development Hackathon:**
 
 Team Name: Melodica          			
-Team Members:  Sujay Samuel S
+Team Members:  Sujay Samuel S,
                Samuel Robinson R
 
 **Stage 1-Product Idea Submission Form**
