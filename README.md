@@ -43,12 +43,12 @@ Team Name: Melodica          			Team Members:  Sujay Samuel S
 4. **Does the product utilise sensors?**
 * No
 5. **Block Diagram**
-![alt_text](images/image1.jpg "image_tooltip")
+![alt_text](images/image3.jpg "image_tooltip")
 
 6. **Algorithm flowchart**
 
     
-![alt_text](images/image2.jpg "image_tooltip")
+![alt_text](images/image4.jpg "image_tooltip")
 
 
 7. **Algorithm of the product in bullet points.**
@@ -97,13 +97,13 @@ _        _
 8. **Rough sketch of the final product.**
 
     
-![alt_text](images/image3.jpg "image_tooltip")
+![alt_text](images/image1.jpg "image_tooltip")
 
 
 9. **Rough sketch of the Internal product **
 
     
-![alt_text](images/image4.png "image_tooltip")
+![alt_text](images/image5.png "image_tooltip")
 
 
 10. **BoM list (excluding the board) with cost.**
