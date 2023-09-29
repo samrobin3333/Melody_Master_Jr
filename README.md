@@ -3,12 +3,11 @@
 * WARNINGs: 0
 * ALERTS: 4 -->
 
-RISC-V Product Development Hackathon:
+**RISC-V Product Development Hackathon:**
 
-Team Name: Melodica          			Team Members:  Sujay Samuel S
-
-
-                                  Samuel Robinson R
+Team Name: Melodica          			
+Team Members:  Sujay Samuel S
+               Samuel Robinson R
 
 **Stage 1-Product Idea Submission Form**
 
@@ -16,12 +15,12 @@ Team Name: Melodica          			Team Members:  Sujay Samuel S
 
 1. **Product Title**
 
-**	“Melody Master Jr”- Unlock the world of Music!!**
+**“Melody Master Jr”- Unlock the world of Music!!**
 
 
 
-2. **What does your product do?  \
-      **- Plays Music
+2. **What does your product do?**
+          - Plays Music
 
           - Teaches kids to play the piano
 
