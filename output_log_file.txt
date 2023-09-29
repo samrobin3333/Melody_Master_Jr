@@ -131,4 +131,4 @@ Multiple libraries were found for "LiquidCrystal.h"
   Not used: C:\Users\Dell\AppData\Local\Arduino15\libraries\LiquidCrystal
 Using library LiquidCrystal at version 1.0.7 in folder: C:\Users\Dell\AppData\Local\Arduino15\packages\riscduino\hardware\riscv\1.2.7\libraries\LiquidCrystal 
 "C:\\Users\\Dell\\AppData\\Local\\Arduino15\\packages\\riscduino\\tools\\riscv64-unknown-elf-gcc\\1.0.1/bin/riscv64-unknown-elf-size" -B "C:\\Users\\Dell\\AppData\\Local\\Temp\\arduino\\sketches\\F603DE96591AF731E511AE98E832373C/sketch_sep29a.ino.elf"
-Sketch uses 12086 bytes (0%) of program storage space. Maximum is 8388608 bytes.
+Sketch uses 12086 bytes (1.44085%) of program storage space. Maximum is 8388608 bytes.
