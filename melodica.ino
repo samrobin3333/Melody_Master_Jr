@@ -1,7 +1,9 @@
 #include <LiquidCrystal.h>
 
+int Contrast=10;
 LiquidCrystal lcd(12, 11, 10, 9, 8,7);
 // Define the pins for the buttons and the piezo buzzer
+//bool sustain=0;
 const int buttonPin1 = 14;
 const int buttonPin2 = 15;
 const int buttonPin3 = 16;
@@ -25,33 +27,71 @@ const int C1 = 523;
 const int Br=0;
 
 const int keyPins[] = {14, 15, 16, 17, 18, 19, 5, 4};  // pins that are connected to the keys
+const int keyMapping[] = {C, D, E, F, G, A, B, C1};  //correspondi…
+[19:05, 12/10/2023] Sujay Samuel ECE B: #include <LiquidCrystal.h>
+int Contrast=10;
+LiquidCrystal lcd(12, 11, 10, 9, 8,7);
+// Define the pins for the buttons and the piezo buzzer
+//bool sustain=0;
+const int buttonPin1 = 14;
+const int buttonPin2 = 15;
+const int buttonPin3 = 16;
+const int buttonPin4 = 17;
+const int buttonPin5 = 18;
+const int buttonPin6 = 19;
+const int buttonPin7 = 5;
+const int buttonPin8 = 4;
+
+const int buzzerPin = 3;
+
+// Define the frequencies for each note
+const int C = 299;
+const int D = 344;
+const int E = 394;
+const int F = 421;
+const int G = 488;
+const int A = 560;
+const int B = 648;
+const int C1 = 704;
+const int Br=10;
+
+const int keyPins[] = {14, 15, 16, 17, 18, 19, 5, 4};  // pins that are connected to the keys
 const int keyMapping[] = {C, D, E, F, G, A, B, C1};  //corresponding keys
 
 //pre-defining the songs
 const int intro[]={C,E,G,C1,B,A,G,C1,C1,C1};
 const int odetojoy[]={E,E,F,G,G,F,E,D,C,C,D,E,E,D,D,Br,E,E,F,G,G,F,E,D,C,C,D,E,D,C,C,Br,D,D,E,C,D,F,E,C,D,F,E,D,C,D,G,Br,E,E,F,G,G,F,E,D,C,C,D,E,D,C,C,Br};
-const int star_wars[]={C,Br,G,Br,F,E,D,C1,Br,G,Br,F,E,D,C1,G,Br,F,E,F,D};
-const int mary[]={E,D,C,D,E,E,E,Br,D,D,D,Br,E,G,G,Br,E,D,C,D,E,E,E,E,D,D,E,D,C,C1};
+const int star_wars[]={C,Br,G,Br,F,E,D,C1,Br,G,Br,F,E,D,C1,G,Br,F,E,F,D,C,Br,G,Br,F,E,D,C1,Br,G,Br,F,E,D,C1,G,Br,F,E,F,D};
+const int mary[]={E,D,C,D,E,E,E,Br,D,D,D,Br,E,G,G,Br,E,D,C,D,E,E,E,E,D,D,E,D,C,E,D,C,D,E,E,E,Br,D,D,D,Br,E,G,G,Br,E,D,C,D,E,E,E,E,D,D,E,D,C,C1};
 const int spring[] = {C,E,E,E,D,C,G,Br,G,F,E,E,E,D,C,G,Br,G,F,E,F,G,F,E,D,Br,E,G,F,E,F,E,A,G,Br,E,G,F,E,F,E,A,G,Br,E,A,G,Br,F,E,D,C,D,Br,C};
 const int buttonPin = 2; 
 const int selbuttonPin = 0; // Change this to the actual pin where your button is connected
   // Change this to the actual pin where your buzzer is connected
 
+
+
+
 const int numSongs = 4;
 const char *songNames[] = {"OdeToJoy", "Star Wars", "Mary had a little lamb", "Spring"};
 int selectedSong = 0;
-
+bool keyState[8] = {false, false, false, false, false, false, false, false};
 int songs[4][64]={{E,E,F,G,G,F,E,D,C,C,D,E,E,D,D,Br,E,E,F,G,G,F,E,D,C,C,D,E,D,C,C,Br,D,D,E,C,D,F,E,C,D,F,E,D,C,D,G,Br,E,E,F,G,G,F,E,D,C,C,D,E,D,C,C,Br},
-{C,Br,G,Br,F,E,D,C1,Br,G,Br,F,E,D,C1,G,Br,F,E,F,D},{E,D,C,D,E,E,E,Br,D,D,D,Br,E,G,G,Br,E,D,C,D,E,E,E,E,D,D,E,D,C,C1},
+{C,Br,G,Br,F,E,D,C1,Br,G,Br,F,E,D,C1,G,Br,F,E,F,D,C,Br,G,Br,F,E,D,C1,Br,G,Br,F,E,D,C1,G,Br,F,E,F,D},{E,D,C,D,E,E,E,Br,D,D,D,Br,E,G,G,Br,E,D,C,D,E,E,E,E,D,D,E,D,C,E,D,C,D,E,E,E,Br,D,D,D,Br,E,G,G,Br,E,D,C,D,E,E,E,E,D,D,E,D,C,C1},
 {C,E,E,E,D,C,G,Br,G,F,E,E,E,D,C,G,Br,G,F,E,F,G,F,E,D,Br,E,G,F,E,F,E,A,G,Br,E,G,F,E,F,E,A,G,Br,E,A,G,Br,F,E,D,C,D,Br,C}};
+
+//int menuFSM[3]={1,2,3};
+int menuFSM=0;
+
 
 bool pause = false;  // for waiting for the keypress from the user
 
 void setup() {
   // Set button pins as inputs
+  menuFSM=0;
+  analogWrite(6,Contrast);
   lcd.begin(16, 2);
-  pinMode(buttonPin, INPUT_PULLUP);   
-  pinMode(selbuttonPin, INPUT_PULLUP);
+  pinMode(buttonPin, INPUT);   
+  pinMode(selbuttonPin, INPUT);
   pinMode(buzzerPin, OUTPUT);
 
   lcd.clear();  //initialising the LCD
@@ -60,18 +100,18 @@ void setup() {
   lcd.print("HELLO THERE!");  //initializing the LCD display
   introjingle();  //intro music
   delay(1000);  //wait
-
+  menuFSM=1;
   displayMenu();
   
   //initialising the buttons
-  pinMode(buttonPin1, INPUT_PULLUP);
-  pinMode(buttonPin2, INPUT_PULLUP);
-  pinMode(buttonPin3, INPUT_PULLUP);
-  pinMode(buttonPin4, INPUT_PULLUP);
-  pinMode(buttonPin5, INPUT_PULLUP);
-  pinMode(buttonPin6, INPUT_PULLUP);
-  pinMode(buttonPin7, INPUT_PULLUP);
-  pinMode(buttonPin8, INPUT_PULLUP);
+  pinMode(buttonPin1, INPUT);
+  pinMode(buttonPin2, INPUT);
+  pinMode(buttonPin3, INPUT);
+  pinMode(buttonPin4, INPUT);
+  pinMode(buttonPin5, INPUT);
+  pinMode(buttonPin6, INPUT);
+  pinMode(buttonPin7, INPUT);
+  pinMode(buttonPin8, INPUT);
 
   // Set the buzzer pin as an output
   pinMode(buzzerPin, OUTPUT);
@@ -81,88 +121,81 @@ void setup() {
 void loop() {
   //playsong();
   // Check if each button is pressed and play the corresponding note
-  if (digitalRead(buttonPin1) == LOW) {
-    pinMode(buttonPin1, INPUT_PULLUP);
-    playToneman(C);
-  } else if (digitalRead(buttonPin2) == LOW) {
-    pinMode(buttonPin2, INPUT_PULLUP);
-    playToneman(D);
-  } else if (digitalRead(buttonPin3) == LOW) {
-    pinMode(buttonPin3, INPUT_PULLUP);
-    playToneman(E);
-  } else if (digitalRead(buttonPin4) == LOW) {
-    pinMode(buttonPin4, INPUT_PULLUP);
-    playToneman(F);
-  } else if (digitalRead(buttonPin5) == LOW) {
-    pinMode(buttonPin5, INPUT_PULLUP);
-    playToneman(G);
-  } else if (digitalRead(buttonPin6) == LOW) {
-    pinMode(buttonPin6, INPUT_PULLUP);
-    playToneman(A);
-  } else if (digitalRead(buttonPin7) == LOW) {
-    pinMode(buttonPin7, INPUT_PULLUP);
-    playToneman(B);
-  } else if (digitalRead(buttonPin8) == LOW) {
-    pinMode(buttonPin8, INPUT_PULLUP);
-    playToneman(C1);
-  } else {
-    // No button is pressed, turn off the buzzer
-    noTone1(buzzerPin);
+  
+  if(digitalRead(buttonPin) == LOW && digitalRead(selbuttonPin)==LOW)
+  {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Returning to Main:");
+    displayMenu();
   }
-
-  if (digitalRead(buttonPin) == LOW) {
-    //delay(100);  // Debounce delay
-    
-      delay(100);
-      
-      selectedSong +=1;       // choosing the song to be played and learnt
-      if(selectedSong>=numSongs)
-      {
-        selectedSong=0;
+  for (int i = 0; i < 8; i++) {
+    if (digitalRead(keyPins[i]) == LOW && !keyState[i]) {
+      playToneman(keyMapping[i]);
+      keyState[i] = true;
+      //delay(100);
+      if (menuFSM==1){
+        delay(300);
+        displayMenu();
       }
-      
-      
-      displayMenu();
+    } else if (digitalRead(keyPins[i]) == HIGH) {
+      keyState[i] = false;
     }
-  if (digitalRead(selbuttonPin) == LOW) {
-      // If the last option is selected, play the chosen song
-      Simonsays(songs[selectedSong]);
-      delay(1000);  // Add a delay to show that the song is playing
-      displayMenu();
   }
+  
+  if (digitalRead(buttonPin) == LOW) {
+    delay(300); // Debounce delay
+    selectedSong += 1; // choosing the song to be played and learnt
+    if (selectedSong >= numSongs) {
+      selectedSong = 0;
+    }
+    displayMenu();
+  }
+  
+  if (digitalRead(selbuttonPin) == LOW) {
+    // If the last option is selected, play the chosen song
+    
+      Simonsays(songs[selectedSong]);
+      delay(1000);
+    
+   
+    
+     // Add a delay to show that the song is playing
+    displayMenu();
+  }
+  
 }
 
 // Function to play a tone on the buzzer
-void playToneauto(int frequency, int pin) {
+void playToneauto(int frequency) {
   //delay(200);
-  tone1(buzzerPin, frequency, 250);
   
-  pinMode(pin, OUTPUT);
-  digitalWrite(pin, LOW);
+  tone1(buzzerPin, frequency, 250);
   //delay(200);
   noTone1(buzzerPin);
-  
-  digitalWrite(pin, HIGH);
- 
+   
  // delay(150);
  
 }
 
 void playToneman(int frequency) {
   //delay(200);
+  
   tone1(buzzerPin, frequency, 250);
-  
-  
-  //digitalWrite(pin, LOW);
+  printkeyman(frequency);
   //delay(200);
   noTone1(buzzerPin);
-  //digitalWrite(pin, HIGH);
+  
+
  // delay(150);
+  return ;
  
 }
-void tone1(int buzzerPin, int frequency, int duration) {
+
+
+void tone1(int buzzerPin, int frequency, long unsigned duration) {
   int period = 1000000L / frequency; // Calculate the period in microseconds
-  long startTime = millis(); // Get the current time
+  long  startTime = millis(); // Get the current time
 
   while (millis() - startTime < duration) {
     digitalWrite(buzzerPin, HIGH); // Turn the buzzer on
@@ -172,6 +205,35 @@ void tone1(int buzzerPin, int frequency, int duration) {
   }
 }
 
+/*
+void tone1(byte pin, uint16_t frequency, uint16_t duration)
+{                                                             // input parameters: Arduino pin number, frequency in Hz, duration in milliseconds
+  unsigned long startTime=millis();
+  unsigned long halfPeriod= 1000000L/(frequency*10/16);
+  pinMode(pin,OUTPUT);
+  while (millis()-startTime< duration)
+  {
+    digitalWrite(pin,HIGH);
+    delayMicroseconds(halfPeriod);
+    digitalWrite(pin,LOW);
+    delayMicroseconds(halfPeriod);
+  }
+  pinMode(pin,INPUT);
+}*/
+/*
+void tone1(int buzzerPin, int frequency, int duration) {
+  int halfPeriod = 500000L / frequency; // Calculate the half-period in microseconds
+
+  long startTime = micros(); // Get the current time
+
+  while (micros() - startTime < duration * 1000) {
+    digitalWrite(buzzerPin, HIGH); // Turn the buzzer on
+    delayMicroseconds(halfPeriod); // Wait for half of the period
+    digitalWrite(buzzerPin, LOW); // Turn the buzzer off
+    delayMicroseconds(halfPeriod); // Wait for the other half of the period
+  }
+}
+*/
 //function to play the selected song
 void playsong(int song[])
 {
@@ -180,23 +242,25 @@ void playsong(int song[])
   lcd.print("Now Playing :");
   lcd.setCursor(0, 1);
   lcd.print(songNames[selectedSong]);
-  for(int i=0;i<64;i++)
+  for(int i=0;i<32;i++)
   {
-    playToneauto(song[i],getLedPin(song[i])); //playing induvidual notes in the song
+    playToneauto(song[i]); //playing induvidual notes in the song
+    printkey(song[i]);
   }  
+  return;
 }
 
 //finding the corresponding LED that has to glow, for a note played during playback
 int getLedPin(int index) {
   switch (index) {
-    case 262: return buttonPin1;
-    case 294: return buttonPin2;
-    case 330: return buttonPin3;
-    case 349: return buttonPin4;
-    case 392: return buttonPin5;
-    case 440: return buttonPin6;
-    case 494: return buttonPin7;
-    case 523: return buttonPin8;
+    case C: return buttonPin1;
+    case D: return buttonPin2;
+    case E: return buttonPin3;
+    case F: return buttonPin4;
+    case G: return buttonPin5;
+    case A: return buttonPin6;
+    case B: return buttonPin7;
+    case C1: return buttonPin8;
     default: return buttonPin1;
   }
 }
@@ -211,120 +275,189 @@ void introjingle()
 {
   for(int i=0;i<10;i++)
   {
-    playToneauto(intro[i],getLedPin(intro[i]));
+    playToneauto(intro[i]);
   }
   
 }
 
-//getting the corresponding value for the note played (buton pressed)
-int getinp()
-{ 
-  if (digitalRead(buttonPin1) == LOW) {
-    playToneman(C);  //playing the note
-    return C;   // returning hte number
-  } else if (digitalRead(buttonPin2) == LOW) {
-    playToneman(D);
-    return D;
-  } else if (digitalRead(buttonPin3) == LOW) {
-    playToneman(E);
-    return E;
-  } else if (digitalRead(buttonPin4) == LOW) {
-    playToneman(F);
-    return F;
-  } else if (digitalRead(buttonPin5) == LOW) {
-    playToneman(G);
-    return G;
-  } else if (digitalRead(buttonPin6) == LOW) {
-    playToneman(A);
-    return A;
-  } else if (digitalRead(buttonPin7) == LOW) {
-    playToneman(B);
-    return B;
-  } else if (digitalRead(buttonPin8) == LOW) {
-    playToneman(C1);
-    return C1;
-  } else {
-    // No button is pressed, turn off the buzzer
-    return Br;
+
+int readButton() {
+  for (;;) {
+    for (int i = 0; i < 8; i++) {
+      int buttonPin = keyMapping[i];
+      if (digitalRead(getLedPin(buttonPin)) == LOW) {
+        playToneman(buttonPin);
+        return buttonPin;
+      }
+    }
+    delay(50);
   }
 }
+
 
 //The main code for our idea
 void Simonsays(int song[])
 {
   // play the song throughout
   playsong(song);
-  delay(5000);  // break for some time
-
+  
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("Your turn!:");  //user should play now
-  // initialising to receive inputs from the user
-  pinMode(buttonPin1, INPUT);
-  pinMode(buttonPin2, INPUT);
-  pinMode(buttonPin3, INPUT);
-  pinMode(buttonPin4, INPUT);
-  pinMode(buttonPin5, INPUT);
-  pinMode(buttonPin6, INPUT);
-  pinMode(buttonPin7, INPUT);
-  pinMode(buttonPin8, INPUT);
-  int count = 0;
+ 
+  //int count = 0;
   int start = 0;  //first portion of the learning block
   int bar = 4;   // size of the learning portion
   //int length = sizeof(song)/sizeof(song[0]);
-  int length=64;  //length of the song
+  int length=32;  //length of the song
   while (start<length)
   {
-    int ans[4];
-    while (count<2)  // making sure the user plays the portion correctly twice
-    {
+    //int ans[4];
+    //int play[4];   
+    //int c = 0;
+    lcd.clear();
+      lcd.setCursor(0, 0);
+      lcd.print("Now Listen!:"); 
+      delay(2000);
       for(int i=start;i<(start+bar);i++)    // getting the portion of the song that is to be learned
       {
-        playToneauto(song[i],getLedPin(song[i])); //playing the portion slowly
-        delay(200);
-      }
-      noTone1(buzzerPin);  //switching off the buzzer sound
-      while (true)     // checking again and again 
-      {
-        int inp;
-        for (int i=0;i<4;i++)  //receive input
-        {
-          while(!getinp())
-          {
-            inp = getinp();
-            ans[i] = inp;  //receive the user input and store it
-            delay(1000);
-            break;
-          }
-        }
+        playToneauto(song[i]); //playing the portion slowly
+        printkey(song[i]);
+        //printkey(song[i]);
+        //lcd.clear();
+        //lcd.setCursor(0, 0);
+        //lcd.print("Play now!: "); 
 
-        
-        //checking if the notes played match with correct notes
-        if(ans[0] == song[start] && ans[1] == song[start+1] && ans[2] == song[start+2] && ans[3] == song[start+3])
-        {
-          lcd.clear();
-          lcd.setCursor(0, 0);
-          lcd.print("Good Job! Keep Going:");  //the notes indeed match
-          ++count;
-          break;
-        }
-        else{
-          lcd.clear();
-          lcd.setCursor(0, 0);   // the notes do not match
-          lcd.print("Try Again:");
-          continue;
-        }
+        delay(200);
+        //play[c] = song[i];
       }
-    }
-    start = start+bar;  // moving to the next section of the song
-  }   
+      lcd.clear();
+      lcd.setCursor(0, 0);
+      lcd.print("Play now!:"); 
+      pinMode(buttonPin1, INPUT);
+      pinMode(buttonPin2, INPUT);
+      pinMode(buttonPin3, INPUT);
+      pinMode(buttonPin4, INPUT);
+      pinMode(buttonPin5, INPUT); 
+      pinMode(buttonPin6, INPUT);
+      pinMode(buttonPin7, INPUT);
+      pinMode(buttonPin8, INPUT);     
+
+
+    for (int i = 0; i < 4; i++) {
+      int expectedButton = song[start+i];
+      if(expectedButton == Br)
+      {
+        continue;
+      }
+      int actualButton = readButton();
+
+      if (expectedButton == actualButton) {
+        
+        continue;
+      }
+      else {
+        lcd.clear();
+      lcd.setCursor(0, 0);
+      lcd.print("OOPS! Wrong Note!"); 
+      delay(3000);
+      start = start-bar;
+      break;
+      }
+    //++count;
+  }  
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("NICE! KEEP GOING!:"); 
+    delay(1000); 
+    start = start+bar;  // moving to the next section of the song 
+}
+
 }
 
 // code to control the 1602 LCD panel
-void displayMenu() {
+void displayMenu(){
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("Selection Menu:");
   lcd.setCursor(0, 1);
   lcd.print(songNames[selectedSong]);
+}
+
+   
+
+void printkeyman(int note)
+{
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  switch(note)
+  {
+    case C:
+      lcd.print("Note :C");
+      break;
+    case D:
+      lcd.print("Note :D");
+      break;
+    case E:
+      lcd.print("Note :E");
+      break;
+    case F:
+      lcd.print("Note :F");
+      break;
+    case G:
+      lcd.print("Note :G");
+      break;
+    case A:
+      lcd.print("Note :A");
+      break;
+    case B:
+      lcd.print("Note :B");
+      break;
+    case C1:
+      lcd.print("Note :C1");
+      break;
+    default:
+      lcd.print("Rest");
+      break;
+  }
+
+}
+
+void printkey(int note)
+{
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  switch(note)
+  {
+    case C:
+      lcd.print("Play note : C");
+      break;
+    case D:
+      lcd.print("Play note : D");
+      break;
+    case E:
+      lcd.print("Play note : E");
+      break;
+    case F:
+      lcd.print("Play note : F");
+      break;
+    case G:
+      lcd.print("Play note : G");
+      break;
+    case A:
+      lcd.print("Play note : A");
+      break;
+    case B:
+      lcd.print("Play note : B");
+      break;
+    case C1:
+      lcd.print("Play note : C1");
+      break;
+    default:
+      lcd.print("Rest");
+      break;
+  }
+
+ 
+
 }
